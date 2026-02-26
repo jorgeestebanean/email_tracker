@@ -2,3 +2,4 @@ fastapi
 uvicorn
 pytracking
 pymysql
+cryptography

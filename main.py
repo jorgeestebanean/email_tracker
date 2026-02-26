@@ -10,25 +10,28 @@ app = FastAPI()
 
 def conexionBD():
     try:
-       conexion = pymysql.connect(
-            host=os.getenv('MYSQLHOST'),      
-            user=os.getenv('MYSQLUSER'),     
-            password=os.getenv('MYSQLPASSWORD'), 
-            database=os.getenv('MYSQLDATABASE'), 
-            port=int(os.getenv('MYSQLPORT', 3306)), 
+        # Forzamos la lectura de Railway. Si os.getenv falla, no conectará a nada.
+        host_db = os.getenv('MYSQLHOST')
+        user_db = os.getenv('MYSQLUSER')
+        pass_db = os.getenv('MYSQLPASSWORD')
+        db_name = os.getenv('MYSQLDATABASE')
+        port_db = int(os.getenv('MYSQLPORT', 3306))
+
+        print(f"DEBUG: Intentando conectar a {host_db}...") # Esto saldrá en tus logs
+
+        conexion = pymysql.connect(
+            host=host_db,      
+            user=user_db,     
+            password=pass_db, 
+            database=db_name, 
+            port=port_db, 
             autocommit=True,
-            cursorclass=pymysql.cursors.DictCursor,
+            cursorclass=pymysql.cursors.DictCursor
         )
-
-    except pymysql.err.OperationalError as e:
-        print(f"Error: al conectar a la base de datos: {e}")
+        return conexion
+    except Exception as e:
+        print(f"Error real de conexión: {e}")
         return None
-
-    except pymysql.err.InternalError as e:
-        print(f"Error: no se ha encontrado la base de datos: {e}")
-        return None
-
-    return conexion
 
 def insertarCampaña(conexion,campaña):
     try:

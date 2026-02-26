@@ -2,17 +2,21 @@
 import pytracking
 from fastapi import FastAPI, Response, Request
 import pymysql
+import os
+import pymysql.cursors
 
 app = FastAPI()
 
 
 def conexionBD():
     try:
-        conexion = pymysql.connect(
-            host="localhost",
-            user="root",
-            password="root",
-            database="email_tracker",
+       conexion = pymysql.connect(
+            host=os.getenv('MYSQLHOST'),      
+            user=os.getenv('MYSQLUSER'),     
+            password=os.getenv('MYSQLPASSWORD'), 
+            database=os.getenv('MYSQLDATABASE'), 
+            port=int(os.getenv('MYSQLPORT', 3306)), 
+            autocommit=True,
             cursorclass=pymysql.cursors.DictCursor,
         )
 

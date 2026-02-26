@@ -1,8 +1,5 @@
 import pytracking
 from fastapi import FastAPI, Response, Request
-#cd C:\Users\Jorge Esteban Garcia\Desktop\DAO\ejemplo_mailjet\
-#.venv\Scripts\Activate
-#uvicorn endpoint:app --host 0.0.0.0 --port 8080 --reload
 app = FastAPI()
  
 
@@ -12,7 +9,9 @@ def track_open(data: str):
     result = pytracking.get_open_tracking_result(data)
     
     email_cliente = result.metadata.get("email")
+    campaña = result.metadata.get("campaña")
     print(f"Correo abierto por: {email_cliente}")
+    print(f"Campaña: {campaña}")
 
     # Guardamos fichero con los correos abiertos 
     with open("emails_abiertos.txt", "a") as f:

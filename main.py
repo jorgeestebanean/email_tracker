@@ -13,7 +13,7 @@ def conexionBD():
         pass_db = os.getenv('MYSQLPASSWORD')
         db_name = os.getenv('MYSQLDATABASE')
         port_env = os.getenv('MYSQLPORT')
-        print(type(puerto), puerto)
+        print(type(port_env), port_env)
         conexion = pymysql.connect(
             host=host_db,      
             user=user_db,     
